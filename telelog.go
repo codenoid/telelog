@@ -5,6 +5,7 @@ import (
 	"os"
 	"runtime"
 	"strconv"
+	"strings"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 	log "github.com/withmandala/go-log"
@@ -38,24 +39,23 @@ func LoggerNew() *Instance {
 
 	i.osLogger = log.New(os.Stderr).WithColor()
 
-	if path := os.Getenv("TELELOG_RECIPIENT_LIST"); path != "" {
-		// read file lines as slice of string
-		if lines, err := readLines(path); err == nil {
-			// iterate file that contain string of chat_id
-			for _, chatIDStr := range lines {
-				// convert string chat_id into int64
-				chatID, err := strconv.ParseInt(chatIDStr, 10, 64)
-				if err != nil {
-					i.osLogger.Warn(err.Error())
-					continue
-				}
-				i.recipient = append(i.recipient, chatID)
-			}
+	if token := os.Getenv("TELELOG_BOT_TOKEN"); token != "" {
+		i.token = token
+	}
+
+	if name := os.Getenv("TELELOG_APP_NAME"); name != "" {
+		i.name = name
+	}
+
+	if debug := os.Getenv("TELELOG_DEBUG_MODE"); debug != "" {
+		switch strings.ToLower(debug) {
+		case "1", "true", "enabled", "active", "yes":
+			i.debug = true
 		}
 	}
 
-	if token := os.Getenv("TELELOG_BOT_TOKEN"); token != "" {
-		i.token = token
+	if path := os.Getenv("TELELOG_RECIPIENT_LIST"); path != "" {
+		i.SetRecipient(path)
 	}
 
 	return i
