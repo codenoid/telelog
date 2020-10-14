@@ -105,7 +105,7 @@ func (i *Instance) Connect() error {
 
 func (i *Instance) SendLog(level string, msg ...interface{}) {
 
-	content := `%v
+	content := `%v %v
 
 Filename: %v
 Line: %v
@@ -118,7 +118,7 @@ Message:
 	details := runtime.FuncForPC(pc)
 	if ok && details != nil {
 		file, line := details.FileLine(pc)
-		content = fmt.Sprintf(content, level, file, line, details.Name(), msg)
+		content = fmt.Sprintf(content, level, i.name, file, line, details.Name(), msg)
 	}
 
 	for _, chatID := range i.recipient {
