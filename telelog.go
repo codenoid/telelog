@@ -18,7 +18,8 @@ const (
 	DEBUG = "🤔 [DEBUG]"
 )
 
-type instance struct {
+// Instance telelog instance
+type Instance struct {
 	name      string
 	debug     bool
 	token     string
@@ -30,7 +31,10 @@ type instance struct {
 	bot *tgbotapi.BotAPI
 }
 
-func (i *instance) LoggerNew() *instance {
+// LoggerNew create new telelog Instance
+func LoggerNew() *Instance {
+
+	i := &Instance{}
 
 	i.osLogger = log.New(os.Stderr).WithColor()
 
@@ -50,22 +54,26 @@ func (i *instance) LoggerNew() *instance {
 		}
 	}
 
+	if token := os.Getenv("TELELOG_BOT_TOKEN"); token != "" {
+		i.token = token
+	}
+
 	return i
 }
 
-func (i *instance) SetToken(token string) {
+func (i *Instance) SetToken(token string) {
 	i.token = token
 }
 
-func (i *instance) SetAppName(name string) {
+func (i *Instance) SetAppName(name string) {
 	i.name = name
 }
 
-func (i *instance) SetDebug(debug bool) {
+func (i *Instance) SetDebug(debug bool) {
 	i.debug = debug
 }
 
-func (i *instance) SetRecipient(files ...string) {
+func (i *Instance) SetRecipient(files ...string) {
 	// iterate given list of file path
 	for _, path := range files {
 		// read file lines as slice of string
@@ -84,7 +92,7 @@ func (i *instance) SetRecipient(files ...string) {
 	}
 }
 
-func (i *instance) Connect() error {
+func (i *Instance) Connect() error {
 	bot, err := tgbotapi.NewBotAPI(i.token)
 	if err != nil {
 		return err
@@ -95,7 +103,7 @@ func (i *instance) Connect() error {
 	return nil
 }
 
-func (i *instance) SendLog(level string, msg interface{}) {
+func (i *Instance) SendLog(level string, msg interface{}) {
 
 	content := `%v
 
@@ -121,57 +129,57 @@ Message:
 }
 
 // Fatal print fatal message to output and quit the application with status 1
-func (i *instance) Fatal(v ...interface{}) {
+func (i *Instance) Fatal(v ...interface{}) {
 	i.SendLog(FATAL, v)
 	os.Exit(1)
 }
 
 // Fatalf print formatted fatal message to output and quit the application
 // with status 1
-func (i *instance) Fatalf(format string, v ...interface{}) {
+func (i *Instance) Fatalf(format string, v ...interface{}) {
 	i.SendLog(FATAL, fmt.Sprintf(format, v...))
 	os.Exit(1)
 }
 
 // Error print error message to output
-func (i *instance) Error(v ...interface{}) {
+func (i *Instance) Error(v ...interface{}) {
 	i.SendLog(ERROR, v)
 }
 
 // Errorf print formatted error message to output
-func (i *instance) Errorf(format string, v ...interface{}) {
+func (i *Instance) Errorf(format string, v ...interface{}) {
 	i.SendLog(ERROR, fmt.Sprintf(format, v...))
 }
 
 // Warn print warning message to output
-func (i *instance) Warn(v ...interface{}) {
+func (i *Instance) Warn(v ...interface{}) {
 	i.SendLog(WARN, v)
 }
 
 // Warnf print formatted warning message to output
-func (i *instance) Warnf(format string, v ...interface{}) {
+func (i *Instance) Warnf(format string, v ...interface{}) {
 	i.SendLog(WARN, fmt.Sprintf(format, v...))
 }
 
 // Info print informational message to output
-func (i *instance) Info(v ...interface{}) {
+func (i *Instance) Info(v ...interface{}) {
 	i.SendLog(INFO, v)
 }
 
 // Infof print formatted informational message to output
-func (i *instance) Infof(format string, v ...interface{}) {
+func (i *Instance) Infof(format string, v ...interface{}) {
 	i.SendLog(INFO, fmt.Sprintf(format, v...))
 }
 
 // Debug print debug message to output if debug output enabled
-func (i *instance) Debug(v ...interface{}) {
+func (i *Instance) Debug(v ...interface{}) {
 	if i.debug {
 		i.SendLog(DEBUG, v)
 	}
 }
 
 // Debugf print formatted debug message to output if debug output enabled
-func (i *instance) Debugf(format string, v ...interface{}) {
+func (i *Instance) Debugf(format string, v ...interface{}) {
 	if i.debug {
 		i.SendLog(DEBUG, fmt.Sprintf(format, v...))
 	}
