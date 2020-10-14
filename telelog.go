@@ -103,7 +103,7 @@ func (i *Instance) Connect() error {
 	return nil
 }
 
-func (i *Instance) SendLog(level string, msg ...interface{}) {
+func (i *Instance) sendLog(level string, msg ...interface{}) {
 
 	content := `%v %v
 
@@ -130,57 +130,57 @@ Message:
 
 // Fatal print fatal message to output and quit the application with status 1
 func (i *Instance) Fatal(v ...interface{}) {
-	i.SendLog(FATAL, v)
+	i.sendLog(FATAL, v)
 	os.Exit(1)
 }
 
 // Fatalf print formatted fatal message to output and quit the application
 // with status 1
 func (i *Instance) Fatalf(format string, v ...interface{}) {
-	i.SendLog(FATAL, fmt.Sprintf(format, v...))
+	i.sendLog(FATAL, fmt.Sprintf(format, v...))
 	os.Exit(1)
 }
 
 // Error print error message to output
 func (i *Instance) Error(v ...interface{}) {
-	i.SendLog(ERROR, v)
+	i.sendLog(ERROR, v)
 }
 
 // Errorf print formatted error message to output
 func (i *Instance) Errorf(format string, v ...interface{}) {
-	i.SendLog(ERROR, fmt.Sprintf(format, v...))
+	i.sendLog(ERROR, fmt.Sprintf(format, v...))
 }
 
 // Warn print warning message to output
 func (i *Instance) Warn(v ...interface{}) {
-	i.SendLog(WARN, v)
+	i.sendLog(WARN, v)
 }
 
 // Warnf print formatted warning message to output
 func (i *Instance) Warnf(format string, v ...interface{}) {
-	i.SendLog(WARN, fmt.Sprintf(format, v...))
+	i.sendLog(WARN, fmt.Sprintf(format, v...))
 }
 
 // Info print informational message to output
 func (i *Instance) Info(v ...interface{}) {
-	i.SendLog(INFO, v)
+	i.sendLog(INFO, v)
 }
 
 // Infof print formatted informational message to output
 func (i *Instance) Infof(format string, v ...interface{}) {
-	i.SendLog(INFO, fmt.Sprintf(format, v...))
+	i.sendLog(INFO, fmt.Sprintf(format, v...))
 }
 
 // Debug print debug message to output if debug output enabled
 func (i *Instance) Debug(v ...interface{}) {
 	if i.debug {
-		i.SendLog(DEBUG, v)
+		i.sendLog(DEBUG, v)
 	}
 }
 
 // Debugf print formatted debug message to output if debug output enabled
 func (i *Instance) Debugf(format string, v ...interface{}) {
 	if i.debug {
-		i.SendLog(DEBUG, fmt.Sprintf(format, v...))
+		i.sendLog(DEBUG, fmt.Sprintf(format, v...))
 	}
 }
