@@ -12,7 +12,7 @@ go get github.com/codenoid/telelog
 
 ## Usage
 
-Example of recipient file : 
+Example of recipient file content (text file) : 
 
 ```txt
 999838460

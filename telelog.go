@@ -103,7 +103,7 @@ func (i *Instance) Connect() error {
 	return nil
 }
 
-func (i *Instance) sendLog(level string, msg interface{}) {
+func (i *Instance) sendLog(level string, msg string) {
 
 	content := `%v %v
 
@@ -123,7 +123,7 @@ Message:
 		if val := strings.Split(file, string(os.PathSeparator)); len(val) > 0 {
 			fileName = val[len(val)-1]
 		}
-		content = fmt.Sprintf(content, level, i.name, fileName, line, details.Name(), fmt.Sprint(msg))
+		content = fmt.Sprintf(content, level, i.name, fileName, line, details.Name(), msg)
 	}
 
 	for _, chatID := range i.recipient {
@@ -135,7 +135,7 @@ Message:
 
 // Fatal print fatal message to output and quit the application with status 1
 func (i *Instance) Fatal(v ...interface{}) {
-	i.sendLog(FATAL, v)
+	i.sendLog(FATAL, fmt.Sprintln(v...))
 	os.Exit(1)
 }
 
@@ -148,7 +148,7 @@ func (i *Instance) Fatalf(format string, v ...interface{}) {
 
 // Error print error message to output
 func (i *Instance) Error(v ...interface{}) {
-	i.sendLog(ERROR, v)
+	i.sendLog(ERROR, fmt.Sprintln(v...))
 }
 
 // Errorf print formatted error message to output
@@ -158,7 +158,7 @@ func (i *Instance) Errorf(format string, v ...interface{}) {
 
 // Warn print warning message to output
 func (i *Instance) Warn(v ...interface{}) {
-	i.sendLog(WARN, v)
+	i.sendLog(WARN, fmt.Sprintln(v...))
 }
 
 // Warnf print formatted warning message to output
@@ -168,7 +168,7 @@ func (i *Instance) Warnf(format string, v ...interface{}) {
 
 // Info print informational message to output
 func (i *Instance) Info(v ...interface{}) {
-	i.sendLog(INFO, v)
+	i.sendLog(INFO, fmt.Sprintln(v...))
 }
 
 // Infof print formatted informational message to output
@@ -179,7 +179,7 @@ func (i *Instance) Infof(format string, v ...interface{}) {
 // Debug print debug message to output if debug output enabled
 func (i *Instance) Debug(v ...interface{}) {
 	if i.debug {
-		i.sendLog(DEBUG, v)
+		i.sendLog(DEBUG, fmt.Sprintln(v...))
 	}
 }
 
