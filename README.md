@@ -6,10 +6,16 @@ Embed to app or tail a file, the log will send to your telegram (chat_id)
 
 ## Installation
 
-Using Go Modules
+Embed to your app using Go Modules
 
 ```bash
 go get github.com/codenoid/telelog
+```
+
+CLI version
+
+```bash
+go get github.com/codenoid/telelog/telelog
 ```
 
 ## Usage
@@ -20,6 +26,21 @@ Example of recipient file content (text file) :
 999838460
 961268461
 827957192
+```
+
+CMD Example :
+
+you must set env var for cli version !
+
+```bash
+$ codenoid> telelog 
+Telelog, make sure you already set these env : 
+TELELOG_BOT_TOKEN
+TELELOG_APP_NAME
+TELELOG_DEBUG_MODE (optional)
+TELELOG_RECIPIENT_LIST
+
+$ codenoid> telelog -file ./path/to/error.log -level error
 ```
 
 Code Example :
