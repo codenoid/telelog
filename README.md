@@ -2,6 +2,8 @@
 
 Embed to app or tail a file, the log will send to your telegram (chat_id)
 
+![Telegram Notification](telelog.jpg?raw=true)
+
 ## Installation
 
 Using Go Modules
