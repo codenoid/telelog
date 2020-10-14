@@ -103,7 +103,7 @@ func (i *Instance) Connect() error {
 	return nil
 }
 
-func (i *Instance) SendLog(level string, msg interface{}) {
+func (i *Instance) SendLog(level string, msg ...interface{}) {
 
 	content := `%v
 
