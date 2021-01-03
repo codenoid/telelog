@@ -35,14 +35,18 @@ type Logger struct {
 }
 
 // LoggerNew create new telelog Instance
-func LoggerNew(token string) *Logger {
+func LoggerNew(token ...string) *Logger {
 
 	i := &Logger{}
 
 	i.osLogger = log.New(os.Stderr).WithColor()
 
-	if token := os.Getenv("TELELOG_BOT_TOKEN"); token != "" {
-		i.token = token
+	if tokenFromEnv := os.Getenv("TELELOG_BOT_TOKEN"); tokenFromEnv != "" {
+		i.token = tokenFromEnv
+	} else {
+		if len(token) > 0 {
+			i.token = token[0]
+		}
 	}
 
 	if name := os.Getenv("TELELOG_APP_NAME"); name != "" {
@@ -61,7 +65,7 @@ func LoggerNew(token string) *Logger {
 	}
 
 	// set and create telegram instance
-	i.SetToken(token)
+	i.SetToken(i.token)
 
 	return i
 }
