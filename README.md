@@ -1,5 +1,7 @@
 # Telelog
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/codenoid/telelog.svg)](https://pkg.go.dev/github.com/codenoid/telelog)
+
 Embed to app or tail a file, the log will send to your telegram (chat_id)
 
 ![Telegram Notification](telelog.jpg?raw=true)
