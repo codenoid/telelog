@@ -94,17 +94,21 @@ func (i *Logger) SetRecipientFromFiles(files ...string) {
 	for _, path := range files {
 		// read file lines as slice of string
 		if lines, err := readLines(path); err == nil {
-			// iterate file that contain string of chat_id
-			for _, chatIDStr := range lines {
-				// convert string chat_id into int64
-				chatID, err := strconv.ParseInt(chatIDStr, 10, 64)
-				if err != nil {
-					i.osLogger.Warn(err.Error())
-					continue
-				}
-				i.recipient = append(i.recipient, chatID)
-			}
+			i.setRecipient(lines)
 		}
+	}
+}
+
+func (i *Logger) setRecipient(recipient []string) {
+	// iterate file that contain string of chat_id
+	for _, chatIDStr := range recipient {
+		// convert string chat_id into int64
+		chatID, err := strconv.ParseInt(chatIDStr, 10, 64)
+		if err != nil {
+			i.osLogger.Warn(err.Error())
+			continue
+		}
+		i.recipient = append(i.recipient, chatID)
 	}
 }
 
