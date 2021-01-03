@@ -61,9 +61,21 @@ func LoggerNew() *Instance {
 	return i
 }
 
-func (i *Instance) SetToken(token string) {
+func (i *Instance) SetToken(token string) error {
 	token = strings.TrimSpace(token)
-	i.token = token
+
+	if token != i.token {
+		i.token = token
+
+		bot, err := tgbotapi.NewBotAPI(i.token)
+		if err != nil {
+			return err
+		}
+
+		i.bot = bot
+	}
+
+	return nil
 }
 
 func (i *Instance) SetAppName(name string) {
@@ -91,17 +103,6 @@ func (i *Instance) SetRecipient(files ...string) {
 			}
 		}
 	}
-}
-
-func (i *Instance) Connect() error {
-	bot, err := tgbotapi.NewBotAPI(i.token)
-	if err != nil {
-		return err
-	}
-
-	i.bot = bot
-
-	return nil
 }
 
 func (i *Instance) sendLog(level string, msg string) {
