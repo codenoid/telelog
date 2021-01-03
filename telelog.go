@@ -23,11 +23,12 @@ const (
 
 // Logger telelog logger instance
 type Logger struct {
-	name      string
-	debug     bool
-	token     string
-	file      string
-	recipient []int64
+	name       string
+	callerInfo bool
+	debug      bool
+	token      string
+	file       string
+	recipient  []int64
 
 	osLogger *log.Logger
 
@@ -95,6 +96,12 @@ func (i *Logger) SetDebug(debug bool) {
 	i.debug = debug
 }
 
+// SetEnableCallerInfo extract caller information and
+// show the info on log
+func (i *Logger) SetEnableCallerInfo(callerInfo bool) {
+	i.callerInfo = callerInfo
+}
+
 func (i *Logger) SetRecipientFromFiles(files ...string) {
 	// iterate given list of file path
 	for _, path := range files {
@@ -143,6 +150,31 @@ func (i *Logger) setRecipient(recipient []string) {
 			i.recipient = append(i.recipient, chatID)
 		}
 	}
+}
+
+func (i *Logger) buildLogWithCallerInfo(level, msg string) string {
+	content := `%v %v
+
+Filename: %v
+Line: %v
+FuncName: %v
+
+Message:
+%v`
+
+	pc, _, _, ok := runtime.Caller(3)
+	details := runtime.FuncForPC(pc)
+	if ok && details != nil {
+		file, line := details.FileLine(pc)
+		fileName := file
+		// privacy first
+		if val := strings.Split(file, string(os.PathSeparator)); len(val) > 0 {
+			fileName = val[len(val)-1]
+		}
+		content = fmt.Sprintf(content, level, i.name, fileName, line, details.Name(), msg)
+	}
+
+	return content
 }
 
 func (i *Logger) sendLog(level string, msg string) {
