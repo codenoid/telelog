@@ -55,7 +55,7 @@ func LoggerNew(token string) *Logger {
 	}
 
 	if path := os.Getenv("TELELOG_RECIPIENT_LIST"); path != "" {
-		i.SetRecipient(path)
+		i.SetRecipientFromFiles(path)
 	}
 
 	// set and create telegram instance
@@ -89,7 +89,7 @@ func (i *Logger) SetDebug(debug bool) {
 	i.debug = debug
 }
 
-func (i *Logger) SetRecipient(files ...string) {
+func (i *Logger) SetRecipientFromFiles(files ...string) {
 	// iterate given list of file path
 	for _, path := range files {
 		// read file lines as slice of string
