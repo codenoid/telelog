@@ -62,6 +62,7 @@ func LoggerNew() *Instance {
 }
 
 func (i *Instance) SetToken(token string) {
+	token = strings.TrimSpace(token)
 	i.token = token
 }
 
