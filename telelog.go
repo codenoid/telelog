@@ -2,6 +2,8 @@ package telelog
 
 import (
 	"fmt"
+	"io"
+	"io/ioutil"
 	"os"
 	"runtime"
 	"strconv"
@@ -106,6 +108,22 @@ func (i *Logger) SetRecipientFromByte(b []byte) {
 			string(b),
 		),
 	)
+}
+
+// SetRecipientFromReader read content from reader
+func (i *Logger) SetRecipientFromReader(r io.Reader) error {
+	b, err := ioutil.ReadAll(r)
+	if err != nil {
+		return err
+	}
+
+	i.setRecipient(
+		stringSplitLines(
+			string(b),
+		),
+	)
+
+	return nil
 }
 
 func (i *Logger) setRecipient(recipient []string) {
