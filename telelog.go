@@ -117,7 +117,9 @@ func (i *Logger) setRecipient(recipient []string) {
 			i.osLogger.Warn(err.Error())
 			continue
 		}
-		i.recipient = append(i.recipient, chatID)
+		if chatID > 0 {
+			i.recipient = append(i.recipient, chatID)
+		}
 	}
 }
 
