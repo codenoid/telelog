@@ -126,10 +126,12 @@ Message:
 		content = fmt.Sprintf(content, level, i.name, fileName, line, details.Name(), msg)
 	}
 
-	for _, chatID := range i.recipient {
-		msg := tgbotapi.NewMessage(chatID, content)
-		i.bot.Send(msg)
-	}
+	go func() {
+		for _, chatID := range i.recipient {
+			msg := tgbotapi.NewMessage(chatID, content)
+			i.bot.Send(msg)
+		}
+	}()
 
 }
 
