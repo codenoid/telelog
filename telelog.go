@@ -99,6 +99,15 @@ func (i *Logger) SetRecipientFromFiles(files ...string) {
 	}
 }
 
+// SetRecipientFromByte receive byte of file content
+func (i *Logger) SetRecipientFromByte(b []byte) {
+	i.setRecipient(
+		stringSplitLines(
+			string(b),
+		),
+	)
+}
+
 func (i *Logger) setRecipient(recipient []string) {
 	// iterate file that contain string of chat_id
 	for _, chatIDStr := range recipient {
