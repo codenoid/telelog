@@ -71,6 +71,8 @@ func LoggerNew(token ...string) *Logger {
 	return i
 }
 
+// SetToken change existing token if token are different
+// initiate new i.bot instance if token are different
 func (i *Logger) SetToken(token string) error {
 	token = strings.TrimSpace(token)
 
@@ -88,10 +90,12 @@ func (i *Logger) SetToken(token string) error {
 	return nil
 }
 
+// SetAppName set application name
 func (i *Logger) SetAppName(name string) {
 	i.name = name
 }
 
+// SetDebug set debug
 func (i *Logger) SetDebug(debug bool) {
 	i.debug = debug
 }
@@ -102,6 +106,7 @@ func (i *Logger) SetEnableCallerInfo(callerInfo bool) {
 	i.callerInfo = callerInfo
 }
 
+// SetRecipientFromFiles receive string of file path
 func (i *Logger) SetRecipientFromFiles(files ...string) {
 	// iterate given list of file path
 	for _, path := range files {
