@@ -177,7 +177,7 @@ Message:
 	return content
 }
 
-func (i *Logger) sendLog(level string, msg string) {
+func (i *Logger) sendLog(level, msg string) {
 
 	content := `%v %v
 
