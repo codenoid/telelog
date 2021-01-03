@@ -181,31 +181,23 @@ func (i *Logger) sendLog(level string, msg string) {
 
 	content := `%v %v
 
-Filename: %v
-Line: %v
-FuncName: %v
-
 Message:
 %v`
 
-	pc, _, _, ok := runtime.Caller(2)
-	details := runtime.FuncForPC(pc)
-	if ok && details != nil {
-		file, line := details.FileLine(pc)
-		fileName := file
-		// privacy first
-		if val := strings.Split(file, string(os.PathSeparator)); len(val) > 0 {
-			fileName = val[len(val)-1]
-		}
-		content = fmt.Sprintf(content, level, i.name, fileName, line, details.Name(), msg)
+	if i.callerInfo {
+		content = i.buildLogWithCallerInfo(level, msg)
+	} else {
+		content = fmt.Sprintf(content, level, i.name, msg)
 	}
 
-	go func() {
-		for _, chatID := range i.recipient {
-			msg := tgbotapi.NewMessage(chatID, content)
-			i.bot.Send(msg)
-		}
-	}()
+	if content != "" {
+		go func() {
+			for _, chatID := range i.recipient {
+				msg := tgbotapi.NewMessage(chatID, content)
+				i.bot.Send(msg)
+			}
+		}()
+	}
 
 }
 
