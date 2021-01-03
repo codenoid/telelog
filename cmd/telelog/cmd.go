@@ -5,7 +5,6 @@ import (
 	"fmt"
 
 	"github.com/codenoid/telelog"
-
 	"github.com/hpcloud/tail"
 )
 
@@ -33,10 +32,6 @@ func main() {
 	logger.SetAppName(file)
 	if level == "debug" {
 		logger.SetDebug(true)
-	}
-
-	if err := logger.Connect(); err != nil {
-		panic(err)
 	}
 
 	t, err := tail.TailFile(file, tail.Config{Follow: true, MustExist: true, ReOpen: true})
