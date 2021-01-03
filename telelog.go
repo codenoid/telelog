@@ -139,14 +139,14 @@ Message:
 // Fatal print fatal message to output and quit the application with status 1
 func (i *Instance) Fatal(v ...interface{}) {
 	i.sendLog(FATAL, fmt.Sprintln(v...))
-	os.Exit(1)
+	panic(v)
 }
 
 // Fatalf print formatted fatal message to output and quit the application
 // with status 1
 func (i *Instance) Fatalf(format string, v ...interface{}) {
 	i.sendLog(FATAL, fmt.Sprintf(format, v...))
-	os.Exit(1)
+	panic(v)
 }
 
 // Error print error message to output
