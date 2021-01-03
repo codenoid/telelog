@@ -33,7 +33,7 @@ type Logger struct {
 }
 
 // LoggerNew create new telelog Instance
-func LoggerNew() *Logger {
+func LoggerNew(token string) *Logger {
 
 	i := &Logger{}
 
@@ -57,6 +57,9 @@ func LoggerNew() *Logger {
 	if path := os.Getenv("TELELOG_RECIPIENT_LIST"); path != "" {
 		i.SetRecipient(path)
 	}
+
+	// set and create telegram instance
+	i.SetToken(token)
 
 	return i
 }
