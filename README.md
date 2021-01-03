@@ -15,7 +15,7 @@ go get github.com/codenoid/telelog
 CLI version
 
 ```bash
-go get github.com/codenoid/telelog/telelog
+go get github.com/codenoid/telelog/cmd/telelog
 ```
 
 ## Usage
@@ -70,10 +70,12 @@ func main() {
     // default TELELOG_RECIPIENT_LIST (single path to file), unless you call SetRecipient
     logger.SetRecipient("/path/to/text/file.txt", "/second/file/that/contain/chat_id.txt")
 
-    err := logger.Connect()
-    if err != nil {
-        panic(err)
-    }
+    // or reader
+    f, _ := os.Open("file.txt")
+    logger.SetRecipientFromReader(f)
+
+    // or []byte
+    logger.SetRecipientFromByte([]byte{"777000\n"})
 
     logger.Warn("Warning! your app will be error")
     logger.Error("yo, this is error, in 2sec your app will dead")
