@@ -3,6 +3,7 @@ package telelog
 import (
 	"bufio"
 	"os"
+	"strings"
 )
 
 // readLines reads a whole file into memory
@@ -20,4 +21,10 @@ func readLines(path string) ([]string, error) {
 		lines = append(lines, scanner.Text())
 	}
 	return lines, scanner.Err()
+}
+
+// split string new line as array of string
+// works on Windows, Darwin & Linux
+func stringSplitLines(s string) []string {
+	return strings.Split(strings.Replace(s, "\r\n", "\n", -1), "\n")
 }
