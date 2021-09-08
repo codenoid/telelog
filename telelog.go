@@ -76,16 +76,14 @@ func LoggerNew(token ...string) *Logger {
 func (i *Logger) SetToken(token string) error {
 	token = strings.TrimSpace(token)
 
-	if token != i.token {
-		i.token = token
+	i.token = token
 
-		bot, err := tgbotapi.NewBotAPI(i.token)
-		if err != nil {
-			return err
-		}
-
-		i.bot = bot
+	bot, err := tgbotapi.NewBotAPI(i.token)
+	if err != nil {
+		return err
 	}
+
+	i.bot = bot
 
 	return nil
 }
